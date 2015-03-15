@@ -1,0 +1,22 @@
+CREATE TABLE `cricket_player` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `dob` datetime DEFAULT NULL,
+  `price` bigint(20) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `batsman` bit(1) NOT NULL,
+  `bowler` bit(1) NOT NULL,
+  `wicket_keeper` bit(1) NOT NULL,
+  `all_rounder` bit(1) NOT NULL,
+  `overall_rank` int(11) DEFAULT NULL,
+  `batting_info_id` bigint(20) DEFAULT NULL,
+  `bowling_info_id` bigint(20) DEFAULT NULL,
+  `fielding_info_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `overall_rank` (`overall_rank`),
+  UNIQUE KEY `batting_info_id` (`batting_info_id`),
+  UNIQUE KEY `bowling_info_id` (`bowling_info_id`),
+  UNIQUE KEY `fielding_info_id` (`fielding_info_id`)
+);
