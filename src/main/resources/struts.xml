@@ -5,7 +5,7 @@
 
 <struts>
     <!-- devMode is helpful when you want some extra logs for debugging -->
-    <constant name="struts.devMode" value="false" />
+    <constant name="struts.devMode" value="true" />
     <!-- Global message resource; 
     	 Otherwise you will have seperate message resource for each Action 
     -->
@@ -16,17 +16,29 @@
     	This this is set to false; then struts will try to find mapping for 
     	URL "/10" instaed of "/delete/10"
      -->
+    <!--<constant name="struts.enable.SlashesInActionNames" value="true"/>-->
+    <!--<constant name="struts.action.extension" value="html"/>-->
+
+    <constant name="struts.locale" value="en_US"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.serve.static.browserCache" value="true"/>
+    <constant name="struts.action.extension" value="html"/>
+    <constant name="struts.objectFactory" value="spring"/>
+    <constant name="struts.custom.i18n.resources" value="ApplicationResources,ApplicationResources-overrides,errors"/>
+    <constant name="struts.multipart.maxSize" value="6291456"/>
+    <constant name="struts.codebehind.pathPrefix" value="/WEB-INF/pages/"/>
     <constant name="struts.enable.SlashesInActionNames" value="true"/>
-     
+    <constant name="struts.convention.action.disableScanning" value="true"/>
+    <constant name="struts.convention.redirect.to.slash" value="false"/>
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
+
+
     <!-- Normal Action mappings are defined here -->
-	<package name="default" namespace="" extends="struts-default">
-	    <!-- Two things to Notice: 
-	    	 1) class is set to 'editEmployeeAction' which is bean defined by Spring context
-	    	 2) We have given the method to be called here as well;
-	   	-->
-		<action name="list" class="editEmployeeAction" method="listEmployees">
-			<result>/view/signup.jsp</result>
-		</action>
+	<package name="default" namespace="" extends="struts-default, json-default">
+
+        <!--<interceptors>-->
+        <!--</interceptors>-->
+
 		<action name="signup" class="userAction" method="addUser">
 			<result name="success">/view/welcome.jsp</result>
 			<result name="error">/view/signup.jsp</result>
@@ -34,17 +46,36 @@
         <action name="login" class="userAction" method="login">
             <result name="success">/view/welcome.jsp</result>
             <result name="error">/view/login.jsp</result>
+            <result name="input">/view/login.jsp</result>
         </action>
         <action name="signupPage" class="userAction" method="signupPage">
             <result name="success">/view/signup.jsp</result>
         </action>
         <action name="logout" class="userAction" method="logout">
-            <result name="success" type="redirect">/</result>
+            <result name="success" type="redirect">/login.html</result>
         </action>
-		<action name="*" class="userAction" method="execute">
-		  <result name="success">/view/welcome.jsp</result>
-		  <result name="input">/view/login.jsp</result>
-		</action>
+        <action name="addPlayerPage" class="playerAction" method="execute">
+            <result name="success">/view/createPlayer.jsp</result>
+        </action>
+        <action name="addPlayer" class="playerAction" method="addPlayer">
+            <result name="success">/view/createPlayer.jsp</result>
+            <result name="error">/view/createPlayer.jsp</result>
+            <result name="input">/view/createPlayer.jsp</result>
+        </action>
+        <action name="createTeam" class="userAction" method="addTeam">
+            <result name="success" type="redirect">/welcome.html</result>
+            <result name="error">/view/welcome.jsp</result>
+            <result name="input">/view/welcome.jsp</result>
+        </action>
+        <action name="fetchTypes" class="userAction" method="fetchTypes">
+            <result name="success" type="json">
+                <param name="root">types</param>
+            </result>
+        </action>
+        <action name="*" class="userAction" method="execute">
+            <result name="success">/view/welcome.jsp</result>
+            <result name="input">/view/login.jsp</result>
+        </action>
 	</package>
 	
 </struts>

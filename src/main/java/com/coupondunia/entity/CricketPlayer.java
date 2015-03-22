@@ -4,13 +4,14 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by roushan on 14/3/15.
  */
 @Table(name = "cricket_player")
 @Entity
-public class CricketPlayer extends Player{
+public class CricketPlayer extends Player implements Serializable{
 
     @Column(nullable = false)
     Boolean batsman;
@@ -18,31 +19,31 @@ public class CricketPlayer extends Player{
     @Column(nullable = false)
     Boolean bowler;
 
-    @Column(nullable = false)
+    @Column(name = "wicket_keeper", nullable = false)
     Boolean wicketKeeper;
 
-    @Column(nullable = false)
+    @Column(name = "all_rounder", nullable = false)
     Boolean allRounder; // Need to create this variable instead of simply deriving it from batsman and bowler because even a wicketkeeping batsman is an allrounder in addition to a batsman cum bowler.
     // this is also in accordance with espncricinfo fantasy league game, where if one selects an allrounder, in most cases, it asks whether to select that player as
     // a batsman or an allrounder. This means that they are not combining the batting and bowling stats to come say that particular player is allrounder. Otherwise,
     // they would have included the player as bolwer as well in those cases.
 
-    @Column(unique = true)
+    @Column(name = "overall_rank", unique = true)
     Integer overallRank; // for allround rank, other info like stats for all rounder will be calculated based on batting, bowling and fielding info
     // I could have used some expression to arrive at overall rank by combining batting bowling and fielding ranks, but, due to subjectivity, I preferred this way.
 
     @JoinColumn(name = "batting_info_id", unique = true, nullable = false)
-    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     BattingInfo battingInfo;
 
     @JoinColumn(name = "bowling_info_id", unique = true, nullable = false)
-    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     BowlingInfo bowlingInfo;
 
     @JoinColumn(name = "fielding_info_id", unique = true, nullable = false)
-    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     FieldingInfo fieldingInfo;
 

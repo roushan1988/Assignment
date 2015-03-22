@@ -5,14 +5,14 @@
  
 <hibernate-configuration>
     <session-factory>
-        <mapping class="com.coupondunia.entity.EmployeeEntity" />
         <mapping class="com.coupondunia.entity.User" />
         <mapping class="com.coupondunia.entity.Player" />
         <mapping class="com.coupondunia.entity.CricketPlayer" />
         <mapping class="com.coupondunia.entity.BattingInfo" />
         <mapping class="com.coupondunia.entity.BowlingInfo" />
         <mapping class="com.coupondunia.entity.FieldingInfo" />
-        <mapping class="com.coupondunia.entity.EmployeeEntity" />
+        <mapping class="com.coupondunia.entity.TeamComposition" />
         <mapping class="com.coupondunia.entity.Team" />
+        <mapping class="com.coupondunia.entity.TeamCricketPlayer" />
     </session-factory>
 </hibernate-configuration>

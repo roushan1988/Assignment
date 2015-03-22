@@ -55,6 +55,10 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
         return dao.save(object);
     }
 
+    public T saveWithUpdate(T object) {
+        return dao.saveWithUpdate(object);
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -27,18 +27,58 @@
 
     <!-- This bean has been referred fron struts.xml file; So type it correctly; -->
     <!-- Make scope prototype; This is really important. -->
-    <bean name="userAction" class="com.coupondunia.controller.UserAction" scope="prototype">
-    </bean>
-    
+    <bean name="userAction" class="com.coupondunia.controller.UserAction" scope="prototype"/>
+    <bean name="playerAction" class="com.coupondunia.controller.PlayerAction" scope="prototype"/>
+
     <!-- These beans are injected automatically by spring context -->
 
-    <bean id="playerDao" class="com.coupondunia.dao.GenericDaoHibernate">
-        <constructor-arg value="com.coupondunia.entity.CricketPlayer"/>
+    <bean id="baseLookup" class="com.coupondunia.bo.lookups.AbstractItemLookup" abstract="true" lazy-init="false"/>
+
+    <bean id="masterResource" class="com.coupondunia.bo.lookups.GenericSystemResource">
+        <constructor-arg value="masterResource"/>
+    </bean>
+
+    <bean id="teamCompositionLookup" class="com.coupondunia.bo.lookups.TeamCompositionLookup" parent="baseLookup">
+        <constructor-arg ref="masterResource"/>
+        <constructor-arg value="teamCompositionLookup"/>
+        <property name="teamCompositionDao" ref="teamCompositionDao"/>
+    </bean>
+
+    <bean id="cricketPlayerLookup" class="com.coupondunia.bo.lookups.CricketPlayerLookup" parent="baseLookup">
+        <constructor-arg ref="masterResource"/>
+        <constructor-arg value="cricketPlayerLookup"/>
+        <property name="cricketPlayerDao" ref="cricketPlayerDao"/>
+    </bean>
+
+    <bean id="cricketPlayerDao" class="com.coupondunia.dao.CricketPlayerDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="playerManager" class="com.coupondunia.service.GenericManagerImpl">
-        <constructor-arg ref="playerDao"/>
+    <bean id="teamCompositionDao" class="com.coupondunia.dao.GenericDaoHibernate">
+        <constructor-arg value="com.coupondunia.entity.TeamComposition"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="cricketPlayerManager" class="com.coupondunia.service.CricketPlayerManagerImpl">
+        <constructor-arg ref="cricketPlayerDao"/>
+    </bean>
+
+    <bean id="teamDao" class="com.coupondunia.dao.GenericDaoHibernate">
+        <constructor-arg value="com.coupondunia.entity.Team"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="teamManager" class="com.coupondunia.service.GenericManagerImpl">
+        <constructor-arg ref="teamDao"/>
+    </bean>
+
+    <bean id="teamCricketPlayerDao" class="com.coupondunia.dao.GenericDaoHibernate">
+        <constructor-arg value="com.coupondunia.entity.TeamCricketPlayer"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="teamCricketPlayerManager" class="com.coupondunia.service.GenericManagerImpl">
+        <constructor-arg ref="teamCricketPlayerDao"/>
     </bean>
 
     <bean id="userDao" class="com.coupondunia.dao.UserDaoHibernate">
@@ -80,8 +120,7 @@
     </bean>
     <!-- Run SQL queries in transactions -->
     <tx:annotation-driven />
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     

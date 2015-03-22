@@ -11,6 +11,7 @@ public interface GenericManager<T, PK extends Serializable> {
     T get(PK id);
     boolean exists(PK id);
     T save(T object);
+    T saveWithUpdate(T object);
     void remove(PK id);
     void flush();
 }

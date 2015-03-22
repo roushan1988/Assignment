@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>Spring-4 + Struts-3 + Hibernate Integration Demo</title>
+    <title>Coupondunia Assignment</title>
     <style>
 	table.list
 	{
@@ -43,7 +43,7 @@
 	        	<s:submit key="label.Add"></s:submit>
 	        </td>
 	    </tr>
-        <span><h5><a href="/">Login</a></h5></span>
+        <span><h5><a href="/login.html">Login</a></h5></span>
 	</table> 
 </s:form>
 

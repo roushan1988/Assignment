@@ -17,19 +17,19 @@ public class BattingInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Column(unique = true)
+    @Column(name = "batting_rank", unique = true)
     Integer battingRank;
 
-    @Column
+    @Column(name = "batting_stats")
     String battingStats; // better way to have this would have been creating a clob for class BattingStats and persisting
     // the whole information in mysql in XML format. Could write a converter type with deep copy
     // for MySQL. That would help because new stats keep getting innovated in modern day cricket. However, not doing that because for this assignment purpose, we are not using that many details.
 
-    @Column(nullable = false)
+    @Column(name = "created_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date createdOn;
 
-    @Column(nullable = false)
+    @Column(name = "updated_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date updatedOn;
 

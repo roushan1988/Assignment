@@ -107,6 +107,13 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return (T) getHibernateTemplate().merge(object);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public T saveWithUpdate(T object) {
+        getHibernateTemplate().persist(object);
+        return (T) object;
+    }
+
     @Override
     public void remove(PK id) {
         getHibernateTemplate().delete(this.get(id));

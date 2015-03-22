@@ -29,22 +29,68 @@ public class Team {
     String name;
 
     @JoinColumn(name = "captain_id", nullable = false)
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @Fetch(FetchMode.JOIN)
     CricketPlayer captain;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @Fetch(FetchMode.JOIN)
-    @JoinTable(name = "team_player_mapping",
-            joinColumns = {@JoinColumn(name = "team_id")},
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    List<CricketPlayer> squad;
+    @JoinColumn(name = "team_id")
+    List<TeamCricketPlayer> squad;
 
-    @Column(nullable = false)
+    @Column(name = "created_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date createdOn;
 
-    @Column(nullable = false)
+    @Column(name = "updated_on", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date updatedOn;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public CricketPlayer getCaptain() {
+        return captain;
+    }
+
+    public void setCaptain(CricketPlayer captain) {
+        this.captain = captain;
+    }
+
+    public List<TeamCricketPlayer> getSquad() {
+        return squad;
+    }
+
+    public void setSquad(List<TeamCricketPlayer> squad) {
+        this.squad = squad;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Date updatedOn) {
+        this.updatedOn = updatedOn;
+    }
 }

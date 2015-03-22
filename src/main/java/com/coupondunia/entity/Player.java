@@ -3,19 +3,15 @@ package com.coupondunia.entity;
 import com.coupondunia.bo.enums.Type;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by roushan on 14/3/15.
  */
 @MappedSuperclass
-public abstract class Player {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-
-    @Column(nullable = false)
-    String name;
+public abstract class Player extends LookupItem{
 
     @Column
     String description;
@@ -25,30 +21,6 @@ public abstract class Player {
 
     @Column(nullable = false)
     Long price;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    Date createdOn;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    Date updatedOn;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;
@@ -62,8 +34,12 @@ public abstract class Player {
         return dob;
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setDob(String dob) {
+        try {
+            this.dob = new SimpleDateFormat("dd/MM/yyyy").parse(dob);
+        } catch (ParseException e) {
+            this.dob = null;
+        }
     }
 
     public Long getPrice() {
@@ -72,22 +48,6 @@ public abstract class Player {
 
     public void setPrice(Long price) {
         this.price = price;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Date getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(Date updatedOn) {
-        this.updatedOn = updatedOn;
     }
 
     @Override
@@ -112,10 +72,8 @@ public abstract class Player {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Player{id=").append(id).append(", name=").append(name)
-                .append(", description=").append(description).append(", dob=")
-                .append(dob).append(", price=").append(price).append(", createdOn=")
-                .append(createdOn).append(", updatedOn=").append(updatedOn).append("}");
+        sb.append("Player{description=").append(description).append(", dob=")
+                .append(dob).append(", price=").append(price).append("}");
         return sb.toString();
     }
 }
